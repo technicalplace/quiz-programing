@@ -10,7 +10,7 @@ export const generateQuiz = (quizData: any): Quiz[] => {
   });
 };
 
-const generateQuestions = (questionsData: any): Question[] => {
+export const generateQuestions = (questionsData: any): Question[] => {
   return questionsData.map((question: any, index: number) => {
     return {
       id: index,
@@ -20,7 +20,7 @@ const generateQuestions = (questionsData: any): Question[] => {
   });
 };
 
-const generateAnswers = (answersData: any): Answer[] => {
+export const generateAnswers = (answersData: any): Answer[] => {
   return answersData.map((answer: any, index: number) => {
     return {
       id: index,
@@ -29,3 +29,20 @@ const generateAnswers = (answersData: any): Answer[] => {
     };
   });
 };
+
+const bbb = (v: any): boolean => {
+  if (typeof v === 'string') {
+    return v === '';
+  } else if (v instanceof Array) {
+    return v.length === 0;
+  } else {
+    return v === undefined || v === null;
+  }
+}
+
+const aaa = (v: any): boolean => {
+  if (typeof v === 'string') {
+    v = v.replace(/[　]+$/gm, '');
+  }
+  return bbb(v);
+}

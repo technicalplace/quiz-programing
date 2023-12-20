@@ -9,7 +9,7 @@ type Props = {
   totalQuestions: number;
 };
 
-const Quiz: React.FC<Props> = ({
+export const Quiz: React.FC<Props> = ({
   question,
   answers,
   callback,
@@ -33,5 +33,3 @@ const Quiz: React.FC<Props> = ({
     </div>
   </div>
 );
-
-export default Quiz;
