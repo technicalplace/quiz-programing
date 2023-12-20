@@ -29,20 +29,3 @@ export const generateAnswers = (answersData: any): Answer[] => {
     };
   });
 };
-
-const bbb = (v: any): boolean => {
-  if (typeof v === 'string') {
-    return v === '';
-  } else if (v instanceof Array) {
-    return v.length === 0;
-  } else {
-    return v === undefined || v === null;
-  }
-}
-
-const aaa = (v: any): boolean => {
-  if (typeof v === 'string') {
-    v = v.replace(/[　]+$/gm, '');
-  }
-  return bbb(v);
-}
