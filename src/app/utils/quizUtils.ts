@@ -10,7 +10,7 @@ export const generateQuiz = (quizData: any): Quiz[] => {
   });
 };
 
-const generateQuestions = (questionsData: any): Question[] => {
+export const generateQuestions = (questionsData: any): Question[] => {
   return questionsData.map((question: any, index: number) => {
     return {
       id: index,
@@ -20,7 +20,7 @@ const generateQuestions = (questionsData: any): Question[] => {
   });
 };
 
-const generateAnswers = (answersData: any): Answer[] => {
+export const generateAnswers = (answersData: any): Answer[] => {
   return answersData.map((answer: any, index: number) => {
     return {
       id: index,
