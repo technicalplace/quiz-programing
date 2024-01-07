@@ -1,4 +1,4 @@
-import { Quiz, Question, Answer } from '../types/QuizType';
+import { Quiz, Question, Answer } from '../../types/QuizType';
 
 export const generateQuiz = (quizData: any): Quiz[] => {
   return quizData.map((quiz: any, index: number) => {
