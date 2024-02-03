@@ -2,7 +2,7 @@ import React from "react";
 import { Category } from "../atoms/Category";
 
 export const Categories = () => {
-  const categoryList = ['JavaScript', 'React', 'Vue.js', 'TypeScript', 'Java', 'PHP', 'Next.js', 'NuxtJS', 'Laravel', 'Node.js', 'Python', 'Ruby'];
+  const categoryList: string[] = ['JavaScript', 'React', 'Vue.js', 'TypeScript', 'Java', 'PHP', 'Next.js', 'NuxtJS', 'Laravel', 'Node.js', 'Python', 'Ruby'];
   return (
     <section>
       <div className="mx-auto">

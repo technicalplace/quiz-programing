@@ -1,3 +1,5 @@
+"use client"
+
 import { QuizSection } from "@/components/QuizSection"
 
 const QuizSectionArea = () => {
