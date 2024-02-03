@@ -3,28 +3,38 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import Link from 'next/link'
-import { useParams, usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import QuizList from '@/stores/QuizList'
+import { Quiz } from '@/stores/QuizList'
 
-const plans = [
-  {
-    name: '問題1',
-    ram: '12GB',
-    cpus: '6 CPUs',
-    disk: '160 GB SSD disk',
-  },
-  {
-    name: '問題2',
-    ram: '16GB',
-    cpus: '8 CPUs',
-    disk: '512 GB SSD disk',
-  },
-]
 
 export const QuizSection: React.FC = ({}) => {
-  const [selected, setSelected] = useState(plans[0])
-  const [active, setActive] = useState(false)
   const params = useSearchParams()
-  console.log(params.get('lang'))
+  const getLangParams = params.get('lang') as keyof typeof QuizList
+  const quizLists = QuizList[getLangParams].map(({question, option, answer}): Quiz => ({
+    question,
+    option,
+    answer,
+  }));
+  const [active, setActive] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(quizLists[0]) // 選択されている選択肢
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0) // クイズのインデックス
+  const [currentQuiz, setCurrentQuiz] = useState(quizLists[currentQuizIndex]) // 現在表示しているクイズ
+  /** 前の問題に戻る */
+  const toPrevQuizButton = (): void => {
+    if (currentQuizIndex === 0) setCurrentQuizIndex(0);
+    if (0 < currentQuizIndex && currentQuizIndex < quizLists.length) {
+      setCurrentQuizIndex(currentQuizIndex - 1) // インデックスを減らす
+      setCurrentQuiz(quizLists[currentQuizIndex -1]) // 前のクイズを設定
+    }
+  }
+  /** 次の問題に進む */
+  const toNextQuizButton = (): void => {
+    if (currentQuizIndex < quizLists.length - 1) {
+      setCurrentQuizIndex(currentQuizIndex + 1) // インデックスを増やす
+      setCurrentQuiz(quizLists[currentQuizIndex + 1]) // 新しいクイズを設定
+    }
+  }
   const CheckIcon = (props: any) => {
     return (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
@@ -43,21 +53,18 @@ export const QuizSection: React.FC = ({}) => {
   return (
     <div className="w-full px-4 py-16 bg-background-main h-screen">
       <div className="mx-auto w-full max-w-md">
-        <RadioGroup value={selected} onChange={setSelected}>
-          <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
+        {/* 現在のクイズを表示 */}
+        <h1 className='text-yellow-400 mb-3'>{currentQuiz.question}</h1>
+        <RadioGroup value={selectedOption} onChange={setSelectedOption}>
           <div className="space-y-2">
-            {plans.map((plan) => (
-              // "active"は、ユーザーがマウスをオプションの上に置いているかどうかを示します。
-              // "checked"は、ユーザーがそのオプションを選択したかどうかを示します。
-              // これらの値は、RadioGroup.Optionコンポーネントによって自動的に制御されます。
+            {Object.values(currentQuiz.option).map((option, index) => ( // 現在のクイズのオプションを表示
               <RadioGroup.Option
-                key={plan.name}
-                value={plan}
+                key={index}
+                value={option}
                 className={({ active, checked }) =>
                   `${
                     active
-                      ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300'
-                      : ''
+                      ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300' : ''
                   }
                   ${checked ? 'bg-sky-900/75 text-white' : 'bg-white'}
                     relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
@@ -68,31 +75,18 @@ export const QuizSection: React.FC = ({}) => {
                     <div className="flex w-full items-center justify-between">
                       <div className="flex items-center">
                         <div className="text-sm">
-                          <RadioGroup.Label
-                            as="p"
-                            className={`font-medium  ${
-                              checked ? 'text-white' : 'text-gray-900'
-                            }`}
-                          >
-                            {plan.name}
-                          </RadioGroup.Label>
                           <RadioGroup.Description
-                            as="span"
                             className={`inline ${
                               checked ? 'text-sky-100' : 'text-gray-500'
                             }`}
                           >
-                            <span>
-                              {plan.ram}/{plan.cpus}
-                            </span>{' '}
-                            <span aria-hidden="true">&middot;</span>{' '}
-                            <span>{plan.disk}</span>
+                            <span>{option}</span>
                           </RadioGroup.Description>
                         </div>
                       </div>
                       {checked && (
                         <div className="shrink-0 text-white">
-                          {/* <CheckIcon className="h-6 w-6" /> */}
+                          <CheckIcon className="h-6 w-6" />
                         </div>
                       )}
                     </div>
@@ -102,10 +96,17 @@ export const QuizSection: React.FC = ({}) => {
             ))}
           </div>
         </RadioGroup>
-        <h1 className=' text-gray-50'>{ params.get('lang') }</h1>
       </div>
-      <Link href={'/'}>
-        <button>Top Pageへ戻る</button>
+      <div className='flex justify-between'>
+        <div>
+            <button onClick={toPrevQuizButton} className='text-white font-bold h-9 bg-slate-500 px-4 py-2 rounded-lg hover:text-yellow-400'>前の問題へ</button>
+        </div>
+        <div>
+            <button onClick={toNextQuizButton} className='text-white font-bold h-9 bg-slate-500 px-4 py-2 rounded-lg hover:text-yellow-400'>次の問題へ</button>
+        </div>
+      </div>
+      <Link className='text-white font-bold h-9 mx-auto w-auto bg-slate-500 px-4 py-2 rounded-lg hover:text-yellow-400' href={'/'}>
+        <button className='mt-5'>Top Pageへ戻る</button>
       </Link>
     </div>
   )
