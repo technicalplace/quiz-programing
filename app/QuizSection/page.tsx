@@ -1,6 +1,4 @@
-"use client"
-
-import { QuizSection } from "@/components/QuizSection"
+import { QuizSection } from "../../components/QuizSection"
 
 const QuizSectionArea = () => {
   return (

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 interface CategoryProps {
   categoryName: string;
-}3
+}
 export const Category = ({ categoryName }: CategoryProps) => {
   return (
     <div className="p-2 sm:w-1/4 w-full hover:scale-105 duration-300">
