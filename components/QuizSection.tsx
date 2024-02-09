@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import QuizList from '../utils/QuizList'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAnswerInfo, setQuizList, toNextButton, toPrevButton } from '../stores/answer'
+import { clearStore, setAnswerInfo, setQuizList, toNextButton, toPrevButton } from '../stores/answer'
 
 export const QuizSection: React.FC = ({}) => {
   const params = useSearchParams()
@@ -14,6 +14,7 @@ export const QuizSection: React.FC = ({}) => {
   const quizLists = QuizList[getLangParams];
   // `useSelector`を使用してReduxストアから`currentQuizId`を取得
   const { currentQuizId } = useSelector((state: { answer: { currentQuizId: number } }) => state.answer)
+  
   const showQuiz = quizLists.find(({ id }) => id === currentQuizId)
   useEffect(() => {
     dispatch(setQuizList(quizLists))
@@ -41,14 +42,15 @@ export const QuizSection: React.FC = ({}) => {
       <div className="mx-auto w-full max-w-md">
         <RadioGroup>
           <>
-            <RadioGroup.Label className='text-yellow-400 mb-3'>{showQuiz?.question}</RadioGroup.Label>
-            <div className="space-y-2">
+            <RadioGroup.Label className='text-xl text-yellow-400 mb-3'>{showQuiz?.question}</RadioGroup.Label>
+            <div className="space-y-2 mt-4">
               {Object.values(showQuiz?.option ?? {}).map((option, index) => (
+                // TODO 選択済みの選択肢をアクティブにする
                 <RadioGroup.Option
                   as='button'
                   key={index}
                   value={option}
-                  onClick={() => dispatch(setAnswerInfo(option))}
+                  onClick={() => dispatch(setAnswerInfo(currentQuizId, option))}
                   className={({ active, checked }) =>
                     `${
                       active
@@ -95,7 +97,7 @@ export const QuizSection: React.FC = ({}) => {
         </div>
       </div>
       <Link className='text-white font-bold h-9 mx-auto w-auto bg-slate-500 px-4 py-2 rounded-lg hover:text-yellow-400' href={'/'}>
-        <button className='mt-5'>Top Pageへ戻る</button>
+        <button onClick={() => dispatch(clearStore())} className='mt-5'>Top Pageへ戻る</button>
       </Link>
     </div>
   )
