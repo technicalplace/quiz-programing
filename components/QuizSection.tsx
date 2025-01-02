@@ -6,16 +6,16 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import QuizList from '../utils/QuizList'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearStore, setAnswerInfo, setQuizList, toNextButton, toPrevButton } from '../stores/answer'
+import { answerState, clearStore, setAnswerInfo, setQuizList, toNextButton, toPrevButton } from '../stores/answer'
 
 export const QuizSection: React.FC = ({}) => {
   const params = useSearchParams()
   const getLangParams = params.get('lang') as keyof typeof QuizList
   const quizLists = QuizList[getLangParams];
-  // `useSelector`を使用してReduxストアから`currentQuizId`を取得
-  const { currentQuizId } = useSelector((state: { answer: { currentQuizId: number } }) => state.answer)
-  
+  // `useSelector`を使用してReduxストアから`currentQuizId`と`selectedOptions`を型安全に取得
+  const { currentQuizId, selectedOptions } = useSelector((state: { answer: answerState }) => state.answer)
   const showQuiz = quizLists.find(({ id }) => id === currentQuizId)
+  
   useEffect(() => {
     dispatch(setQuizList(quizLists))
   }, [quizLists])
@@ -51,16 +51,12 @@ export const QuizSection: React.FC = ({}) => {
                   key={index}
                   value={option}
                   onClick={() => dispatch(setAnswerInfo(currentQuizId, option))}
-                  className={({ active, checked }) =>
-                    `${
-                      active
-                        ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300' : ''
-                    }
-                    ${checked ? 'bg-sky-900/75 text-white' : 'bg-white'}
+                  className={({ checked }) =>
+                    `${checked ? 'bg-sky-900/75 text-white ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300' : 'bg-white'}
                       relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none w-full`
                   }
                 >
-                  {({ active, checked }) => (
+                  {({ checked }) => (
                     <>
                       <div className="flex w-full items-center justify-between">
                         <div className="flex items-center">
