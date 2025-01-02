@@ -65,7 +65,7 @@ const App = () => {
   const pathName = usePathname()
 
   return (
-    <div className="bg-background-main h-screen">
+    <div className="h-screen">
       <Header />
       <Categories />
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
