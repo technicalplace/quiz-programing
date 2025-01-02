@@ -1,10 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export type answerState = {
+  quizList: []
+  currentQuizId: number
+  selectedOptions: { id: number; answer: string; }[]
+}
+
 // Stateの初期状態
-const initialState = {
+const initialState: answerState = {
   quizList: [],
   currentQuizId: 1,
-  selectedOptions: [] as { id: number; answer: string; }[],
+  selectedOptions: [],
 }
 // Sliceを生成する
 const answerSlice = createSlice({
