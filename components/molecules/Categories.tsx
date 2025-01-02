@@ -1,7 +1,8 @@
 import React from "react";
-import { Category } from "../atoms/Category";
+import { Category } from "./Category";
 
 export const Categories = () => {
+  // TODO: DBにカテゴリーを登録して、それを取得するようにする
   const categoryList: string[] = ['JavaScript', 'React', 'Vue3', 'TypeScript', 'Java', 'PHP', 'Next.js', 'NuxtJS', 'Laravel', 'Node.js', 'Python', 'Ruby'];
   return (
     <section>
