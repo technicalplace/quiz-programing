@@ -3,8 +3,6 @@ import { IconContext } from "react-icons";
 import { MdQuiz } from "react-icons/md";
 
 export const Header: React.FC = () => {
-
-  
   return (
     <header className="text-text-white body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
