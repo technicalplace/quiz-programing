@@ -9,6 +9,7 @@ import '../global.css';
 import { Header } from '../components/organisms/Header';
 import { Categories } from '../components/molecules/Categories';
 import { useParams, usePathname, useRouter } from 'next/navigation';
+import { AuroraBackground } from '@/components/ui/AuroraBackground';
 
 const TOTAL_QUESTIONS = 10;
 
@@ -65,7 +66,7 @@ const App = () => {
   const pathName = usePathname()
 
   return (
-    <div className="h-screen">
+    <AuroraBackground>
       <Header />
       <Categories />
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
@@ -90,7 +91,7 @@ const App = () => {
           Next Question
         </button>
       ) : null}
-    </div>
+    </AuroraBackground>
   );
 };
 
