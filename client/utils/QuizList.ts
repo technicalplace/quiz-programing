@@ -13,6 +13,7 @@ export type QuizListInterface = {
   [key: string]: Quiz[];
 }
 
+/** TODO: クイズデータをAPIから取得する */
 export const QuizList: QuizListInterface = {
   'React': [
     {
