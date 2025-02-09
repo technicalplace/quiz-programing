@@ -7,10 +7,11 @@ import { useSearchParams } from 'next/navigation'
 import QuizList from '../utils/QuizList'
 import { useDispatch, useSelector } from 'react-redux'
 import { answerState, clearStore, setAnswerInfo, setQuizList, toNextButton, toPrevButton } from '../stores/answer'
+import { Quiz } from './Quiz'
 
 export const QuizSection: React.FC = ({}) => {
   const params = useSearchParams()
-  const getLangParams = params.get('lang') as keyof typeof QuizList
+  const getLangParams:string | null = params.get('lang') ?? '';
   const quizLists = QuizList[getLangParams];
   // `useSelector`を使用してReduxストアから`currentQuizId`と`selectedOptions`を型安全に取得
   const { currentQuizId, selectedOptions } = useSelector((state: { answer: answerState }) => state.answer)
@@ -20,6 +21,7 @@ export const QuizSection: React.FC = ({}) => {
     dispatch(setQuizList(quizLists))
   }, [quizLists])
 
+  /** TODO: アイコンコンポーネント作成 */
   const CheckIcon = (props: any) => {
     return (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
@@ -38,50 +40,48 @@ export const QuizSection: React.FC = ({}) => {
   const dispatch = useDispatch()
 
   return (
-    <div className="w-full px-4 py-16 bg-background-main h-screen">
+    <div className="w-full px-4 py-16 h-screen">
       <div className="mx-auto w-full max-w-md">
         <RadioGroup>
-          <>
-            <RadioGroup.Label className='text-xl text-yellow-400 mb-3'>{showQuiz?.question}</RadioGroup.Label>
-            <div className="space-y-2 mt-4">
-              {Object.values(showQuiz?.option ?? {}).map((option, index) => (
-                // TODO 選択済みの選択肢をアクティブにする
-                <RadioGroup.Option
-                  as='button'
-                  key={index}
-                  value={option}
-                  onClick={() => dispatch(setAnswerInfo(currentQuizId, option))}
-                  className={({ checked }) =>
-                    `${checked ? 'bg-sky-900/75 text-white ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300' : 'bg-white'}
-                      relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none w-full`
-                  }
-                >
-                  {({ checked }) => (
-                    <>
-                      <div className="flex w-full items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="text-sm">
-                            <RadioGroup.Description
-                              className={`inline ${
-                                checked ? 'text-sky-100' : 'text-gray-500'
-                              }`}
-                            >
-                              <span>{option}</span>
-                            </RadioGroup.Description>
-                          </div>
+          <RadioGroup.Label className='text-xl text-yellow-400 mb-3'>{showQuiz?.question}</RadioGroup.Label>
+          <div className="space-y-2 mt-4">
+            {Object.values(showQuiz?.option ?? {}).map((option, index) => (
+              // TODO 選択済みの選択肢をアクティブにする
+              <RadioGroup.Option
+                as='button'
+                key={index}
+                value={option}
+                onClick={() => dispatch(setAnswerInfo(currentQuizId, option))}
+                className={({ checked }) =>
+                  `${checked ? 'bg-sky-900/75 text-white ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300' : 'bg-white'}
+                    relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none w-full`
+                }
+              >
+                {({ checked }) => (
+                  <>
+                    <div className="flex w-full items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="text-sm">
+                          <RadioGroup.Description
+                            className={`inline ${
+                              checked ? 'text-sky-100' : 'text-gray-500'
+                            }`}
+                          >
+                            <span>{option}</span>
+                          </RadioGroup.Description>
                         </div>
-                        {checked && (
-                          <div className="shrink-0 text-white">
-                            <CheckIcon className="h-6 w-6" />
-                          </div>
-                        )}
                       </div>
-                    </>
-                  )}
-                </RadioGroup.Option>
-              ))}
-            </div>
-          </>
+                      {checked && (
+                        <div className="shrink-0 text-white">
+                          <CheckIcon className="h-6 w-6" />
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </RadioGroup.Option>
+            ))}
+          </div>
         </RadioGroup>
       </div>
       <div className='flex justify-between'>
