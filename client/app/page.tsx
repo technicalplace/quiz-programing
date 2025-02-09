@@ -1,12 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { Question } from '../types/QuizType';
-import '../global.css';
-import { Header } from '../components/organisms/Header';
-import { Categories } from '../components/molecules/Categories';
-import { useParams, usePathname, useRouter } from 'next/navigation';
 import { AuroraBackground } from '@/components/ui/AuroraBackground';
+import { useEffect, useState } from 'react';
+import { Categories } from '../components/molecules/Categories';
+import { Header } from '../components/organisms/Header';
+import '../global.css';
+import { Question } from '../types/QuizType';
 
 const TOTAL_QUESTIONS = 10;
 
@@ -42,10 +41,10 @@ const App = () => {
   };
 
   return (
-    <AuroraBackground showRadialGradient={true}>
+    <>
       <Header />
       <Categories />
-    </AuroraBackground>
+    </>
   );
 };
 
