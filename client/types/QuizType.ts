@@ -4,7 +4,7 @@
  * @typeParam text -> 回答のtext
  * @typeParam isCorrect -> true:正解 false:不正解
  */
-export interface Answer {
+export type Answer = {
   id: number;
   text: string;
   isCorrect: boolean;
@@ -15,7 +15,7 @@ export interface Answer {
  * @typeParam text -> 問題文のtext
  * @typeParam answers -> 型Answerの配列
  */
-export interface Question {
+export type Question = {
   id: number;
   text: string;
   answers: Answer[];
@@ -26,7 +26,7 @@ export interface Question {
  * @typeParam name -> クイズのname
  * @typeParam questions -> 型Questionの配列
  */
-export interface Quiz {
+export type Quiz = {
   id: number;
   name: string;
   questions: Question[];
