@@ -1,33 +1,37 @@
-/**
- * @remarks 回答の型定義
- * @typeParam id -> 回答のid
- * @typeParam text -> 回答のtext
- * @typeParam isCorrect -> true:正解 false:不正解
+/** 
+ * @remarks ジャンルの種類
  */
-export type Answer = {
-  id: number;
-  text: string;
-  isCorrect: boolean;
-}
+export type Language = 'React' | 'Vue' | 'Next.js' | 'TypeScript' | 'JavaScript' | 'CSS' | 'HTML' | 'PHP' | 'Laravel' | 'Python' | 'Java' | 'SQL' | 'Docker';
+
 /**
- * @remarks 問題文の型定義
- * @typeParam id -> 問題文のid
- * @typeParam text -> 問題文のtext
- * @typeParam answers -> 型Answerの配列
+ * @remarks 選択肢の型定義
  */
-export type Question = {
-  id: number;
+export type QuizOption = {
+  // 選択肢のid
+  id: string;
+  // 選択肢のtext
   text: string;
-  answers: Answer[];
 }
+
 /**
  * @remarks クイズの型定義
- * @typeParam id -> クイズのid
- * @typeParam name -> クイズのname
- * @typeParam questions -> 型Questionの配列
  */
 export type Quiz = {
+  // クイズのid
   id: number;
-  name: string;
-  questions: Question[];
+  // どの言語か
+  language: Language;
+  // 問題文
+  question: string;
+  // 選択肢
+  option: Array<QuizOption>;
+  // 正解の選択肢のid
+  correctOptionId: string;
+}
+
+/**
+ * @remarks クイズのリストの型定義
+ */
+export type QuizList = {
+  [key in Language]: Quiz[];
 }
