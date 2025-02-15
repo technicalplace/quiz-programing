@@ -89,7 +89,7 @@ export const QuizList: QuizListInterface = {
       answer: '存在しない',
     },
   ],
-  'Vue3': [
+  'Vue': [
     {
       id: 1,
       question: 'Vue 3で導入された新しいComposition APIは何のために導入されましたか',
